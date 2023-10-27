@@ -109,9 +109,11 @@ class Clause(models.Model):
         (UNKNOWN, "Unknown")
     ]
 
-    clause_type = models.CharField(max_length=200)
-    contract_name = models.CharField(max_length=200)
+    topic = models.CharField(max_length=200)
+    contract_type = models.CharField(max_length=200)
+    # Date clause is approved to be added to the db.
     date_added = models.DateField()
+    # Effective date of contract in which clause appears.
     effective_date = models.DateField()
     gov_law = models.CharField(
         max_length=2,
