@@ -123,3 +123,4 @@ class Clause(models.Model):
 
     def _str_(self):
         return f"{self.clause_type} {self.date_added}"
+
