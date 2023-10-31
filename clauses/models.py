@@ -1,6 +1,9 @@
 """Models for clauset."""
 
+import datetime
+
 from django.db import models
+from django.utils import timezone
 
 
 class Clause(models.Model):
@@ -107,14 +110,15 @@ class Clause(models.Model):
         (WASHINGTON, "Washington"),
         (WEST_VIRGINIA, "West Virginia"),
         (WISCONSIN, "Wisconsin"),
-        (WYOMING, "Wyoming")
-        (UNKNOWN, "Unknown")
+        (WYOMING, "Wyoming"),
+        (UNKNOWN, "Unknown"),
     ]
 
+    text = models.CharField(max_length=2000, default="")
     topic = models.CharField(max_length=200)
     contract_type = models.CharField(max_length=200)
-    # Date that clause was approved to be added to the db.
-    date_added = models.DateField()
+    # Date that clause was approved to be added to db
+    pub_date = models.DateTimeField()
     # Effective date of contract in which clause appears.
     effective_date = models.DateField()
     gov_law = models.CharField(
@@ -124,13 +128,25 @@ class Clause(models.Model):
         default=UNKNOWN,
         )
 
-    def _str_(self):
-        return f"{self.topic} Clause added {self.date_added}"
+    def __str__(self):
+        return f"{self.topic} Clause added {self.pub_date}"
+
+    def was_published_recently(self):
+        return self.pub_date >= timezone.now() - datetime.timedelta(days=7)
 
 
 class Clause_Vote(models.Model):
-    """Likes/dislikes for contract clauses."""
+    """Up/downvotes and reports from users on contract clauses."""
 
-    clause_id = models.ForeignKey(Clause, on_delete=models.CASCADE)
-    ups = models.IntegerField(default=0)
-    downs = models.IntegerField(default=0)
+    clause = models.ForeignKey(Clause, on_delete=models.CASCADE)
+    user = models.CharField(max_length=200, default="")
+    value = models.CharField(
+        max_length=1,
+        choices=[
+            ("U", "upvote"),
+            ("D", "downvote"),
+            ("R", "report"),
+        ],
+        default="U"
+    )
+
