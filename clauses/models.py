@@ -4,6 +4,8 @@ from django.db import models
 
 
 class Clause(models.Model):
+    """Contract clauses."""
+
     ALABAMA = "AL"
     ALASKA = "AK"
     ARIZONA = "AZ"
@@ -111,16 +113,24 @@ class Clause(models.Model):
 
     topic = models.CharField(max_length=200)
     contract_type = models.CharField(max_length=200)
-    # Date clause is approved to be added to the db.
+    # Date that clause was approved to be added to the db.
     date_added = models.DateField()
     # Effective date of contract in which clause appears.
     effective_date = models.DateField()
     gov_law = models.CharField(
+        "governing law",
         max_length=2,
         choices=GOVERNING_LAW_CHOICES,
         default=UNKNOWN,
         )
 
     def _str_(self):
-        return f"{self.clause_type} {self.date_added}"
+        return f"{self.topic} Clause added {self.date_added}"
 
+
+class Clause_Vote(models.Model):
+    """Likes/dislikes for contract clauses."""
+
+    clause_id = models.ForeignKey(Clause, on_delete=models.CASCADE)
+    ups = models.IntegerField(default=0)
+    downs = models.IntegerField(default=0)
