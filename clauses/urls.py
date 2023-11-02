@@ -10,5 +10,5 @@ urlpatterns = [
     # ex: /clauses/5/results/
     path("<int:clause_id>/rating/", views.rating, name="rating"),
     # ex: /clauses/5/rate/
-    path("<int:clause_id>/vote/", views.vote, name="rate"),
+    path("<int:clause_id>/rate/", views.rate, name="rate"),
 ]

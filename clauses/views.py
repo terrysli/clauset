@@ -1,11 +1,16 @@
 """Views for clauses app."""
 
 from django.http import HttpResponse
+from django.shortcuts import render
+
+from .models import Clause
 
 
 # Homempage.
 def index(request):
-    return HttpResponse("Hello, world. You're at the clauses index.")
+    latest_clause_list = Clause.objects.order_by("-pub_date")[:5]
+    context = {"latest_clause_list": latest_clause_list}
+    return render(request, "clauses/index.html", context)
 
 
 # Detail for a single clause.
