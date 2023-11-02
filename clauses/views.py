@@ -1,6 +1,7 @@
 """Views for clauses app."""
 
 from django.http import HttpResponse
+from django.http import Http404
 from django.shortcuts import render
 
 from .models import Clause
@@ -15,7 +16,11 @@ def index(request):
 
 # Detail for a single clause.
 def detail(request, clause_id):
-    return HttpResponse("You're looking at clause %s." % clause_id)
+    try:
+        clause = Clause.objects.get(pk=clause_id)
+    except Clause.DoesNotExist:
+        raise Http404("Clause does not exist")
+    return render(request, "clauses/detail.html", {"clause": clause})
 
 
 # Rating (upvotes/downvotes) for a single clause.
