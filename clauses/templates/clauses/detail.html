@@ -6,6 +6,14 @@
   <title>Clause Detail</title>
 </head>
 <body>
-  {{ clause }}
+  <h1>{{ clause.topic }}</h1>
+  <p>{{ clause.text }}</p>
+  <p>Info:</p>
+  <ul>
+    <li>Published: {{ clause.pub_date }}</li>
+    <li>Contract Type: {{ clause.contract_type }}</li>
+    <li>Effective Date: {{ clause.effective_date }}</li>
+    <li>Governing Law: {{ clause.gov_law }}</li>
+  </ul>
 </body>
 </html>

@@ -129,7 +129,7 @@ class Clause(models.Model):
         )
 
     def __str__(self):
-        return f"{self.topic} ({self.pub_date}): {self.text[:50]}"
+        return f'{self.topic} ({self.pub_date.date()}): "{self.text[:50]}"'
 
     def was_published_recently(self):
         return self.pub_date >= timezone.now() - datetime.timedelta(days=7)
