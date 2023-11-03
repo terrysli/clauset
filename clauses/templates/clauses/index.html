@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Homepage</title>
 </head>
+
 <body>
   {% if latest_clause_list %}
-    <ul>
+  <ul>
     {% for clause in latest_clause_list %}
-        <li><a href="/clauses/{{ clause.id }}/">{{ clause.text }}</a></li>
+    <li>
+      <a href="{% url 'clauses:detail' clause.id %}">{{ clause.text }}</a>
+    </li>
     {% endfor %}
-    </ul>
-{% else %}
-    <p>No clauses are available.</p>
-{% endif %}
+  </ul>
+  {% else %}
+  <p>No clauses are available.</p>
+  {% endif %}
 </body>
+
 </html>
