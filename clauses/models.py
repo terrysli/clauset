@@ -135,7 +135,7 @@ class Clause(models.Model):
         return self.pub_date >= timezone.now() - datetime.timedelta(days=7)
 
 
-class Clause_Vote(models.Model):
+class Rating(models.Model):
     """Up/downvotes and reports from users on contract clauses."""
 
     clause = models.ForeignKey(Clause, on_delete=models.CASCADE)

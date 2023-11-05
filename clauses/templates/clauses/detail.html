@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Clause Detail</title>
 </head>
+
 <body>
   <h1>{{ clause.topic }}</h1>
   <p>{{ clause.text }}</p>
@@ -15,5 +17,22 @@
     <li>Effective Date: {{ clause.effective_date }}</li>
     <li>Governing Law: {{ clause.gov_law }}</li>
   </ul>
+  <form action="{% url 'polls:rate' clause.id %}" method="post">
+    {% csrf_token %}
+    <fieldset>
+      <legend>
+        <h1>{{ clause.text }}</h1>
+      </legend>
+      <input type="hidden" name="rating" value="1">
+      <button type="submit" id="upvote-button">Upvote</button>
+      <input type="hidden" name="rating" value="2">
+      <button type="submit" id="downvote-button">Downvote</button>
+      <label for="report-reason">Reason for reporting:</label>
+      <input type="text" name="report_reason" >
+      <button type="submit" name="rating">Report</button>
+    </fieldset>
+    <input type="submit" value="Vote">
+  </form>
 </body>
+
 </html>

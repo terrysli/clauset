@@ -8,8 +8,6 @@ urlpatterns = [
     path("", views.index, name="index"),
     # ex: /clauses/5/
     path("<int:clause_id>/", views.detail, name="detail"),
-    # ex: /clauses/5/results/
-    path("<int:clause_id>/rating/", views.rating, name="rating"),
     # ex: /clauses/5/rate/
     path("<int:clause_id>/rate/", views.rate, name="rate"),
 ]

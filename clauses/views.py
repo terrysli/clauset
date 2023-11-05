@@ -1,9 +1,10 @@
 """Views for clauses app."""
 
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
 
-from .models import Clause
+from .models import Clause, Rating
 
 
 # Homempage.
@@ -19,12 +20,25 @@ def detail(request, clause_id):
     return render(request, "clauses/detail.html", {"clause": clause})
 
 
-# Rating (upvotes/downvotes) for a single clause.
-def rating(request, clause_id):
-    response = "You're looking at the rating of clause %s."
-    return HttpResponse(response % clause_id)
-
-
-# Page to rate a single clause.
+# Submit a rating for a single clause.
 def rate(request, clause_id):
-    return HttpResponse("You're voting on clause %s." % clause_id)
+    clause = get_object_or_404(Clause, pk=clause_id)
+
+    try:
+        rating = request.POST["rating"]
+    except (KeyError, Clause.DoesNotExist):
+        # Redisplay the question voting form.
+        return render(
+            request,
+            "clauses/detail.html",
+            {
+                "rating": rating,
+                "error_message": "You didn't select a rating.",
+            },
+        )
+    else:
+        rating.save()
+        # Always return an HttpResponseRedirect after successfully dealing
+        # with POST data. This prevents data from being posted twice if a
+        # user hits the Back button.
+        return HttpResponseRedirect(reverse("clauses:results", args=(clause.id,)))
