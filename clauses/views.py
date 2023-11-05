@@ -25,15 +25,18 @@ def rate(request, clause_id):
     clause = get_object_or_404(Clause, pk=clause_id)
 
     try:
-        rating = request.POST["rating"]
+        value = request.POST["rating"]
+        rating = Rating(
+            clause=clause,
+            value=value,
+        )
     except (KeyError, Clause.DoesNotExist):
         # Redisplay the question voting form.
         return render(
             request,
             "clauses/detail.html",
             {
-                "rating": rating,
-                "error_message": "You didn't select a rating.",
+                "error_message": "You didn't provide a reason for reporting.",
             },
         )
     else:
@@ -41,4 +44,4 @@ def rate(request, clause_id):
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
-        return HttpResponseRedirect(reverse("clauses:results", args=(clause.id,)))
+        return HttpResponseRedirect(reverse("clauses:deatil", args=(clause.id)))

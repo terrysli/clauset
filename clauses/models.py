@@ -146,7 +146,10 @@ class Rating(models.Model):
             ("U", "upvote"),
             ("D", "downvote"),
             ("R", "report"),
+            ("N", "none")
         ],
-        default="U"
+        default="N"
     )
+    report_reason = models.CharField(max_length=2000)
+
 

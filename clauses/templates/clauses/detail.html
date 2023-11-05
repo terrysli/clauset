@@ -8,7 +8,7 @@
 </head>
 
 <body>
-  <h1>{{ clause.topic }}</h1>
+  <h2>{{ clause.topic }}</h2>
   <p>{{ clause.text }}</p>
   <p>Info:</p>
   <ul>
@@ -17,21 +17,20 @@
     <li>Effective Date: {{ clause.effective_date }}</li>
     <li>Governing Law: {{ clause.gov_law }}</li>
   </ul>
-  <form action="{% url 'polls:rate' clause.id %}" method="post">
+  <form action="{% url 'clauses:rate' clause.id %}" method="post">
     {% csrf_token %}
     <fieldset>
-      <legend>
+      <!-- <legend>
         <h1>{{ clause.text }}</h1>
-      </legend>
-      <input type="hidden" name="rating" value="1">
+      </legend> -->
+      <input type="hidden" name="rating" value="U">
       <button type="submit" id="upvote-button">Upvote</button>
-      <input type="hidden" name="rating" value="2">
-      <button type="submit" id="downvote-button">Downvote</button>
+      <input type="hidden" name="rating" value="D">
+      <button type="submit" id="downvote-button">Downvote</button><br>
       <label for="report-reason">Reason for reporting:</label>
       <input type="text" name="report_reason" >
-      <button type="submit" name="rating">Report</button>
+      <button type="submit" name="rating" value="R">Report</button>
     </fieldset>
-    <input type="submit" value="Vote">
   </form>
 </body>
 
